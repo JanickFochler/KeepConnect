@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://kit.fontawesome.com/ea07dec4c3.js" crossorigin="anonymuos"></script>
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <meta name="viewport" content="width=device-width">
+    </head>
+
+    {% include 'includes/navbar.html'%}
+    {% block content %}
+
+    {% endblock %}
+    {% include 'includes/footer.html'%}

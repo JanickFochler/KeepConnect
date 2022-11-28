@@ -1,0 +1,38 @@
+<body>
+    <div class="container">
+        <div class="container-menu-header">
+        <ul class="left-menu">
+            <li><select>
+                <option>Language</option>
+                <option>Deutsch</option>
+                <option>English</option>
+            </select></li>
+            <li><select>
+                <option>Währung</option>
+                <option>EUR</option>
+                <option>USD</option>
+            </select></li>
+        </ul>  
+        <ul class="right-menu">
+            <li style="display: inline-flex; padding-right: 30%;"><i style="margin-right: 2px;" class="fa-regular fa-envelope"></i>Email</li>
+            <li style="display: inline-flex;"><i class="fa-solid fa-phone"></i>Telefon</li>
+        </ul>
+        </div>
+        <div class="container-menu">
+            <ul>
+                <li id="home">Logo</li>
+                <li class="menupunkte"><input type="text" placeholder="Search"></li>
+                <li class="menupunkte" id="shop">Shop
+                <div class="dropdown-menu" id="dropdown-shop">
+                    <ul>
+                        {% for Kategorie in links %}
+                       <li><a href="{{ Kategorie.get_url }}">{{ Kategorie.kategorie_name }}</a></li>
+                       {% endfor %}
+                    </ul>
+                </div>
+            </li>
+                <li class="menupunkte" id="sale">Sale</li>
+                <li class="menupunkte" id="support">Support</li>
+                <li class="menupunkte" style="margin-left:15%" id="warenkorb"><a>0<i style="padding-left:2px"class="fa-sharp fa-solid fa-cart-shopping"></i></a></li>
+                <li class="menupunkte" style="margin-left:15%" id="warenkorb"><a>Login</a></li>
+            </ul>

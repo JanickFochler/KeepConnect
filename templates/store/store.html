@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+</div>
+<div class="container-body">
+    <div class="banner-container">
+        <img class="banner" alt="banner" src="{% static 'img/Digex-banner-1600x250-1.jpg' %} ">
+    </div>
+    <div class="container-count-items">
+        <b>{{ product_count}}</b> Produkte wurden gefunden
+    </div>
+    <div class="container-aktivierte-filter">
+        <div class="aktivierter-filter"></div>
+        <div class="aktivierter-filter"></div>
+        <div class="aktivierter-filter"></div>
+
+    </div>
+    <div class="container-produkte">
+        {% for product in products %}
+        <div class="produkt">
+        <a href="{{ product.get_url }}">
+            <div class="container-produkt-img"><img class="produkt-img" src="{{ product.images.url }}"></div>
+            <p class="produkt-titel">{{ product.product_name }}</p>
+            <p class="produkt-preis">{{ product.price }} €</p>
+        </a>
+        <div class="container-add-to-chart"style="grid-row: 4; text-align:center">
+            <button type="button" class="add-to-chart" style="grid-row: 4;width:60%; position: relative;margin: 0 auto;">In den Warenkorb</button>
+        </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="container-filter">
+        <ul>
+            <li><a href="{% url 'store' %}">Alle Produkte</a></li>
+            {% for Kategorie in links %}
+            <li><a href="{{ Kategorie.get_url }}">{{ Kategorie.kategorie_name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+{% endblock %}
