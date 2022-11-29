@@ -21,7 +21,12 @@
         <div class="container-menu">
             <ul>
                 <li id="home">Logo</li>
-                <li class="menupunkte"><input type="text" placeholder="Search"></li>
+                <li class="menupunkte">
+                    <form action="{% url 'search' %}" method="get">
+                    <input type="text" placeholder="Search" name="keyword">
+
+
+                </form></li>
                 <li class="menupunkte" id="shop">Shop
                 <div class="dropdown-menu" id="dropdown-shop">
                     <ul>
@@ -33,6 +38,6 @@
             </li>
                 <li class="menupunkte" id="sale">Sale</li>
                 <li class="menupunkte" id="support">Support</li>
-                <li class="menupunkte" style="margin-left:15%" id="warenkorb"><a>0<i style="padding-left:2px"class="fa-sharp fa-solid fa-cart-shopping"></i></a></li>
-                <li class="menupunkte" style="margin-left:15%" id="warenkorb"><a>Login</a></li>
+                <li class="menupunkte" style="margin-left:12%" id="warenkorb"><a href="{% url 'cart' %}" style="color: black; text-decoration:none">{{ cart_count }}<i style="padding-left:2px"class="fa-sharp fa-solid fa-cart-shopping"></i></a></li>
+                <li class="menupunkte" style="margin-right:8%;" id="warenkorb"><a>Login</a></li>
             </ul>

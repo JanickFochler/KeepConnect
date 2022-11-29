@@ -9,7 +9,13 @@
         <img class="banner" alt="banner" src="{% static 'img/Digex-banner-1600x250-1.jpg' %} ">
     </div>
     <div class="container-count-items">
-        <b>{{ product_count}}</b> Produkte wurden gefunden
+        <b>{{ product_count}}</b> 
+        {% if product_count == 1 %}
+        Produkt wurde
+        {% else %}
+        Produkte wurden
+        {% endif %}
+        gefunden
     </div>
     <div class="container-aktivierte-filter">
         <div class="aktivierter-filter"></div>
@@ -18,15 +24,15 @@
 
     </div>
     <div class="container-produkte">
-        {% for product in products %}
+        {% for Product in products %}
         <div class="produkt">
-        <a href="{{ product.get_url }}">
-            <div class="container-produkt-img"><img class="produkt-img" src="{{ product.images.url }}"></div>
-            <p class="produkt-titel">{{ product.product_name }}</p>
-            <p class="produkt-preis">{{ product.price }} €</p>
+        <a href="{{ Product.get_url }}">
+            <div class="container-produkt-img"><img class="produkt-img" src="{{ Product.images.url }}"></div>
+            <p class="produkt-titel">{{ Product.product_name }}</p>
+            <div class=" container-produkt-preis"><p class="produkt-preis">{{ Product.price }} €</p></div>
         </a>
         <div class="container-add-to-chart"style="grid-row: 4; text-align:center">
-            <button type="button" class="add-to-chart" style="grid-row: 4;width:60%; position: relative;margin: 0 auto;">In den Warenkorb</button>
+            <a href="{{ Product.get_url }}" class="add-to-chart" style="grid-row: 4;width:70%; position: relative;margin: 0 auto; color: white;">Mehr erfahren</a>
         </div>
         </div>
         {% endfor %}
@@ -38,6 +44,29 @@
             <li><a href="{{ Kategorie.get_url }}">{{ Kategorie.kategorie_name }}</a></li>
             {% endfor %}
         </ul>
+    </div>
+    <div class="container-site-navigation">
+        {% if products.has_other_pages %}
+        <ul class="site-navigation">
+            {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}" style="color: rgba(128, 128, 128, 0.952); text-decoration: none;"><li style="border-radius: 10px 0px 0px 10px;">Vorherige</li></a>
+            {% else %}
+            <a style="color: rgba(128, 128, 128, 0.144); text-decoration: none;"><li style="border-radius: 10px 0px 0px 10px;">Vorherige</li></a>
+            {% endif %}
+            {% for i in products.paginator.page_range %}
+                {% if products.number == i %}
+                <a style="color: white; text-decoration: none;"><li style="border-left: none; background-color: #004aaac4;">{{ i }}</li></a>
+                {% else %}
+                <a href="?page={{ i }}" style="color: rgba(128, 128, 128, 0.952); text-decoration: none;" id="site-hover"><li style="border-left: none;">{{ i }}</li></a>
+                {% endif %}
+            {% endfor %}
+            {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}" style="color: rgba(128, 128, 128, 0.952); text-decoration: none;"><li style="border-radius: 0px 10px 10px 0px; border-left: none;">Nächste</li></a>
+            {% else %}
+            <a style="color: rgba(128, 128, 128, 0.144); text-decoration: none;"><li style="border-radius: 0px 10px 10px 0px; border-left: none;">Nächste</li></a>
+            {% endif %}
+        </ul>
+        {% endif %}
     </div>
 </div>
 

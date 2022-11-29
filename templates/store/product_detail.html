@@ -5,10 +5,11 @@
 </div>
 <div class="detail-container-body">
     <div class="detail-container-info">
-        <div class="detail-info"></div>
         <div class="detail-container-img">
             <img src="{{ single_product.images.url }}">
         </div>
+        <form action="{% url 'add_cart' single_product.id %}" method="post">
+            {% csrf_token %}
         <div class="detail-container-text">
             <div class="detail-text">
             <h2>{{ single_product.product_name }}</h2>
@@ -16,26 +17,25 @@
             <p>{{ single_product.description }}</p>
         </div>
         <div class="container-choose-color">
-            <table>
-                <tr><td>Choose Color</td></tr>
-                <tr><td>
-                    <ul class="choose-color">
-                        <li tabindex="0" id="Schwarz"><a>Schwarz</a></li>
-                        <li tabindex="0" id="Weiß"><a>Weiß</a></li>
-                        <li tabindex="0" style="border-right: none;" id="Rot"><a>Rot</a></li>
-                    </ul>
-                </td></tr>
-            </table>
+                <h3>Farbe auswählen</h6>
+                <select name="color" class="choose-color" required>
+                    <option value="" disabled selected>Auswahl</option>
+                    {% for i in single_product.variation_set.colors %}
+                    <option value="{{ i.variation_value }}">{{ i.variation_value | capfirst }}</option>
+                    {% endfor %}
+                </select>
+                                    
+                            
         </div>
         {% if single_product.stock <= 0 %}
         <h4 style="margin-top: 3%">Ausverkauft</h4>
         {% else %}
         <div class="container-add-to-chart">
-            <button type="button" class="add-to-chart">In den Warenkorb</button>
+            <button type="submit" class="add-to-chart">In den Warenkorb</button>
         </div>
         {% endif %}
         </div>
-        
+    </form>
     </div>
 </div>
 </div>

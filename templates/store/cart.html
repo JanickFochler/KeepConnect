@@ -7,27 +7,91 @@
 </div>
 
 <div class="cart-container-body">
-    <table class="cart-container-products">
-        <tr>
-            <td></td>
-            <td>Produktname</td>
-            <td>Menge</td>
-            <td>Preis</td>
-            <td></td>
-        </tr>
-        <tr>    
-            <td>Bild</td>
-            <td>Tasse</td>
-            <td>1</td>
-            <td>10 €</td>
-            <td></td>
+    <div class="cart-container-products">
+        {% if not cart_items %}
+        <h3>Es befinden sich keine Produkte in deinem Warenkorb</h3>
+        {% else %}
+        <div class="cart-product">
+            <div style="grid-column: 1 / 3; grid-row: 1; height: 100%; width: 100%; text-align: left;">Produkt</div>
+            <div style="grid-column: 3; grid-row: 1; height: 100%; width: 100%;text-align: left;">Menge</div>
+            <div style="grid-column: 4; grid-row: 1; height: 100%; width: 100%;">Produkt</div>
+        </div>
+        {% for cart_item in cart_items %}
+        <div class="cart-product">
+            <div style="grid-column: 1; grid-row: 1; height: 100%; width: 100%; text-align: left;">
+                <img src="{{ cart_item.product.images.url }}" class="cart-image">
+            </div>
+            <div style="grid-column: 2; grid-row: 1; height: 100%; width: 100%;">
+            <table>
+                <tr style="text-align: left;">
+                    <td><a href="{{ cart_item.product.get_url }}" style="text-decoration: none; color: black;">{{ cart_item.product.product_name}}</a>
+                    </td>
+                </tr>
+                {% if cart_item.variations.all %}
+                {% for item in cart_item.variations.all %}
+                <tr style="text-align: left;">
+                    <td><a href="{{ cart_item.product.get_url }}" style="text-decoration: none; color: rgba(0, 0, 0, 0.493)">{{ item.variation_category | capfirst}}: {{ item.variation_value  | capfirst }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </table>
+            </div>
+            <div style="grid-column: 3; grid-row: 1; height: 100%; width: 100%;display: grid;grid-template-columns: repeat(3,1fr);">
+                <form action="{% url 'remove_cart' cart_item.product.id cart_item.id %}" method="post" style="grid-column: 1; grid-row: 1; display:flex; align-items:center; justify-content:center; width:100%">
+                    {% csrf_token %}
+                    <div style="grid-column: 3; display: flex;grid-row: 1; align-items: center; justify-content: center; width: 100%;">
+                        <button type="submit" style="border-radius:20px;margin: 0 auto; width: 100%; height: 40px;"><i class="fa-sharp fa-solid fa-minus"></i></button>
+                    </div>
+                </form>
+                <div style="grid-column: 2; display: flex;grid-row: 1; align-items: center; justify-content: center;">
+                        <input value="{{ cart_item.quantity }}" type="number" style="margin: 0 auto; width: 100%; height: 35px; padding: 0;border: none;text-align: center;">
+                </div>
+                <form action="{% url 'add_cart' cart_item.product.id %}" method="post" style="grid-column: 3; grid-row: 1; display:flex; align-items:center; justify-content:center; width:100%">
+                {% csrf_token %}
+                {% for item in cart_item.variations.all %}
+                <input type="hidden" name="{{ item.variation_category | lower }}" value="{{ item.variation_value | capfirst }}">
+                {% endfor %}
+                <div style="grid-column: 3; display: flex;grid-row: 1; align-items: center; justify-content: center; width: 100%;">
+                    <button type="submit" style="border-radius:20px;margin: 0 auto; width: 100%; height: 40px;"><i class="fa-sharp fa-solid fa-plus"></i></button>
+                </div>
+                </form>
+            </div>
+            <div style="grid-column: 4; grid-row: 1; height: 100%; width: 100%;display: flex;align-items: center;"><p style="margin: 0 auto">{{ cart_item.sub_total }} €</p></div>
+            <div style="grid-column: 5; grid-row: 1; height: 100%; width: 100%;display: flex;align-items: center;"><p style="margin: 0 auto">
+                <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id%}" style="color: white; text-decoration: none;"><div style="width: 70%; margin: 0 auto; height:50px;background-color: red;border-radius: 10px; color: white;display: flex; align-items: center; justify-content: center;">Entfernen</div></a>
+            
+            </div>
+            
+        </div>
+        {% endfor %}
+        {% endif %}
+            </div>
+            
+            
 
-        </tr>
+        
+
+<div class="cart-checkout">
+        <table style="border-bottom: 1px solid rgba(0, 0, 0, 0.199);margin: 0 auto;margin-top: 5%;width: 80%; font-family: Arial, Helvetica, sans-serif;">
+            <tr style="text-align: center;">
+                <td>Total</td>
+                <td>{{ total }} €</td>
+            </tr>
+            <tr style="text-align: center;">
+                <td>Steuern</td>
+                <td>{{ tax }} €</td>
+            </tr>
+            <tr style="text-align: center;">
+                <td style="width: 30%;"><b>Gesamt</b></td>
+                <td><b>{{ grand_total }} €</b></td>
+            </tr>
+        </table>
+        <button type="button" class="add-to-chart" style="width:60%; position: relative;margin: 0 auto;display: block;margin-top: 5%; background-color:#004aaac4 ;">Zur Kasse</button>
+        <button type="button" class="add-to-chart" style="width:60%; position: relative;margin: 0 auto;display: block;margin-top: 2%;background-color: gray;">Einkauf fortsetzen</button>
+    </div>
 
 
-    </table>
-</div>
-</div>
 
 
 {% endblock %}
